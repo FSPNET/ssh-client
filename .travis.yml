@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+matrix:
+  fast_finish: true
+
+before_install:
+  - bash ./.travis/main.sh
+
+env:
+  global:
+    - base_image='fspnetwork/infrastructure'
+    - repo='fspnetwork/ssh-client'
+
+before_script:
+  - sudo docker pull $base_image
+
+script:
+  - sudo docker build -t $repo .
+
+after_success:
+- bash ./.travis/push.sh
